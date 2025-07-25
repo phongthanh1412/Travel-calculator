@@ -117,7 +117,7 @@ cd ~\Travel-cost\src
 ```
 python -m streamlit run main.py
 ```
-
+This will launch the Streamlit server, and you can access the application through your web browser at Local `http://localhost:8501` or Network `http://192.168.1.8:8501`.
 ## 📚 Appendix 
 ### Modules
 - `pandas` is used to efficiently load, filter, and manipulate travel and airfare datasets (CSV files) for accurate rate lookups and expense calculations.

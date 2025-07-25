@@ -1,7 +1,7 @@
 from CONSTANTS import *
 import streamlit as st
 from airfare_cost import (load_airfare_data, get_airfare_origins,
-    load_airfare_data, get_airfare_origins, get_airfare_destinations, lookup_airfare)
+    get_airfare_destinations, lookup_airfare, generate_airfare_justification)
 
 # ---------------------- AIRFARE PAGE ----------------------
 def airfare_page():
@@ -93,3 +93,6 @@ def airfare_page():
             **Round-trip Airfare (x2):** ${fare * 2:.0f}
             """
         )
+        justi = generate_airfare_justification(airfare_df, selected_origin, selected_destination)
+        st.markdown(justi["info_text"])
+

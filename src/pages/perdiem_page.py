@@ -91,10 +91,10 @@ def per_diem_page():
         left_col, right_col = st.columns(2)
         with right_col:
             st.write(justification["lodging_text"])
-            st.write(f"**Max lodging total: ${int(cost_breakdown['Max lodging total'])}**")
+            st.success(f"**Max lodging total: ${int(cost_breakdown['Max lodging total'])}**")
 
         with left_col:
             st.write(justification["mie_text"])
-            st.write("*The first and last calendar dates of M&IE are calculated at 75%.*")
+            st.info("*The first and last calendar dates of M&IE are calculated at 75%.*")
             mie_total = float(cost_breakdown['First/Last MIE']) + float(cost_breakdown['Middle Days MIE'])
-            st.write(f"**M&IE total: ${mie_total:.0f}**")
+            st.success(f"**M&IE total: ${mie_total:.0f}**")

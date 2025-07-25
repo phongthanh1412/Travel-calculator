@@ -61,6 +61,25 @@ def airfare_page():
                 index=dest_index,
                 key="af_destination"
             )
+    st.info(
+        "All fares are listed one-way and are valid in either direction. "
+    )
+
+    with st.expander("**More details about airfares**", expanded=False):
+        st.markdown("""
+            **Taxes and fees may apply to the final price.**  
+            The final ticket price, excluding baggage fees, will be displayed in your agency’s approved travel 
+            management system. Information on commercial baggage fees is available on the
+            [Airline Information](https://www.gsa.gov/node/82478) page.  
+                    
+            **Domestic**    
+            Domestic fares already include all applicable Federal, State, and local taxes, as well as airport 
+            maintenance and administrative fees. However, they do not cover additional charges such as
+            passenger facility charges, segment fees, or passenger security service fees.  
+
+            **International**    
+            International fares exclude taxes and other fees but include fuel surcharges.
+            """)
 
     c1, c2, _, _ = st.columns([1, 1, 1, 1])
     with c1:
@@ -87,12 +106,5 @@ def airfare_page():
             st.error("No airfare found for this route.")
             return
 
-        st.success(
-            f"""
-            **One-way Airfare:** ${fare:.0f}\n  
-            **Round-trip Airfare (x2):** ${fare * 2:.0f}
-            """
-        )
         justi = generate_airfare_justification(airfare_df, selected_origin, selected_destination)
         st.markdown(justi["info_text"])
-

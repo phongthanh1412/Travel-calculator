@@ -43,8 +43,8 @@ def lookup_airfare(df, origin, destination):
 
 def generate_airfare_justification(df, origin, destination):
     display_to_df_col = {
-        "Origin": ["ORIGIN_CITY_NAME", "ORIGIN_STATE", "ORIGIN_AIRPORT_ABBREV"],
-        "Destination": ["DESTINATION_CITY_NAME", "DESTINATION_STATE", "DESTINATION_AIRPORT_ABBREV"],
+        "Origin": ["ORIGIN_CITY_NAME", "ORIGIN_STATE", "ORIGIN_AIRPORT_ABBREV", "ORIGIN_COUNTRY"],
+        "Destination": ["DESTINATION_CITY_NAME", "DESTINATION_STATE", "DESTINATION_AIRPORT_ABBREV", "DESTINATION_COUNTRY"],
         "Airline": "AIRLINE_ABBREV",
         "Service": "AWARDED_SERV",
         "One-way Fare": ["YCA_FARE", "_CA_FARE"],
@@ -52,8 +52,24 @@ def generate_airfare_justification(df, origin, destination):
         "Expiration Date": "EXPIRATION_DATE",
     }
 
-    def md_escape(val: str) -> str:
-        return str(val).replace("|", r"\|")
+    AIRLINE_MAP = {
+        "3M": "Silver Airways",
+        "AA": "American Airlines",
+        "AS": "Alaska Airlines",
+        "B6": "JetBlue",
+        "DL": "Delta",
+        "HA": "Hawaiian Airlines",
+        "MX": "Mexicana de Aviación (no longer)",
+        "UA": "United Airlines",
+        "WN": "Southwest Airlines",
+    }
+
+    SERVICE_MAP = {
+        "C": "Connect",
+        "N": "Non-stop"
+    }
+
+    SAFE_PIPE = " ｜ "
 
     display_cols = list(display_to_df_col.keys())
     money_cols_df = {"YCA_FARE", "_CA_FARE"}
@@ -74,40 +90,41 @@ def generate_airfare_justification(df, origin, destination):
             if disp_col == "One-way Fare":
                 yca_val = r.get("YCA_FARE", None)
                 ca_val = r.get("_CA_FARE", None)
-                fare_str = []
+                fare_parts = []
                 if pd.notna(yca_val):
-                    try:
-                        fare_str.append(f"YCA: $ {float(yca_val):,.0f}")
-                    except Exception:
-                        fare_str.append("YCA: N/A")
+                    fare_parts.append(f"YCA: ＄{float(yca_val):.0f}")
                 if pd.notna(ca_val):
-                    try:
-                        fare_str.append(f"_CA: $ {float(ca_val):,.0f}")
-                    except Exception:
-                        fare_str.append("_CA: N/A")
-                # Join with a single space and pipe, then escape the entire string
-                vals.append(md_escape("-".join(fare_str) if fare_str else ""))
+                    fare_parts.append(f"_CA: ＄{float(ca_val):.0f}")
+                vals.append(SAFE_PIPE.join(fare_parts) if fare_parts else "")
                 continue
 
             if isinstance(df_cols, list):
                 city = str(r.get(df_cols[0], "")) if pd.notna(r.get(df_cols[0], None)) else ""
-                state = str(r.get(df_cols[1], "")) if pd.notna(r.get(df_cols[1], None)) else ""
+                state = r.get(df_cols[1], "")
+                if pd.isna(state) or str(state).strip() == "":
+                    state = r.get(df_cols[3], "")  
+                state = str(state) if pd.notna(state) else ""
                 airport = str(r.get(df_cols[2], "")) if pd.notna(r.get(df_cols[2], None)) else ""
-                vals.append(f"({city}, {state}-{airport})" if city or state or airport else "")
+
+                vals.append(f"{city}, {state} - {airport}" if city or state or airport else "")
             else:
                 v = r.get(df_cols, "")
-                if df_cols in money_cols_df and pd.notna(v):
+                if df_cols in ("EFFECTIVE_DATE", "EXPIRATION_DATE") and pd.notna(v):
                     try:
-                        v = f"${float(v):,.0f}"
+                        v = pd.to_datetime(v).strftime("%m/%d/%Y")
                     except Exception:
                         pass
+                if df_cols == "AIRLINE_ABBREV":
+                    v = AIRLINE_MAP.get(str(v), v)
+                if df_cols == "AWARDED_SERV":
+                    v = SERVICE_MAP.get(str(v), v)
+                if df_cols in money_cols_df and pd.notna(v):
+                    v = f"${float(v):,.0f}"
                 if pd.isna(v):
                     v = ""
                 vals.append(str(v))
 
-        escaped_vals = [md_escape(v) for v in vals]
-        lines.append("| " + " | ".join(escaped_vals) + " |\n")
+        lines.append("| " + " | ".join(vals) + " |\n")
 
-    info_text = "**Award information**\n" + "".join(lines)
+    info_text = "**City Pair airfares**\n" + "".join(lines)
     return {"info_text": info_text}
-    

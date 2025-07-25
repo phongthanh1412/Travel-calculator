@@ -13,7 +13,11 @@ Travel-cost/
 │   ├── airfare_2025.csv/        # Database of airfares
 │   └── FY2025_PerDiemRates.py   # Database of per diem rate
 ├── src/
-│   └── files.py                 # Source code of the project
+│   ├── files.py                 # Source code of the project
+│   └── pages/
+│        ├── home_page.py        # Home interface
+│        ├── airfare_page.py     # Airfare interface
+│        └── perdiem_page.py/    # Perdiem interface
 ├──README.md                     # Project overview and metadata
 ├──.gitignore                    # Files ignored by Git
 └── requirements.txt             # External Python packages your project needs to run

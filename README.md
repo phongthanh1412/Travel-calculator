@@ -10,14 +10,14 @@ The Travel Cost Estimator simplifies trip planning by using FY25 GSA per diem ra
 ```text
 Travel-cost/
 ├── data/
-│   ├── airfare_2025.csv/        # Database of airfares
-│   └── FY2025_PerDiemRates.py   # Database of per diem rate
+│   ├── airfare_2025.csv         # Database of airfares
+│   └── FY2025_PerDiemRates.csv  # Database of per diem rate
 ├── src/
-│   ├── files.py                 # Source code of the project
+│   ├── main.py                  # Main programme
 │   └── pages/
 │        ├── home_page.py        # Home interface
 │        ├── airfare_page.py     # Airfare interface
-│        └── perdiem_page.py/    # Perdiem interface
+│        └── perdiem_page.py     # Perdiem interface
 ├──README.md                     # Project overview and metadata
 ├──.gitignore                    # Files ignored by Git
 └── requirements.txt             # External Python packages your project needs to run
@@ -32,7 +32,7 @@ Travel-cost/
 
 ## 🧰 Tools and Technologies
 
-- **Framework:** Streamlit is used to build an interactive and user-friendly web interface for the travel cost estimator  
+- **Framework:** `Streamlit` is used to build an interactive and user-friendly web interface for the travel cost estimator  
 - **Data Sources:** FY25 GSA Per Diem rates & City Pair Program airfare  
 - **IDE:** Visual Studio Code
 ## 💻 Data Sources
@@ -40,7 +40,6 @@ Travel-cost/
 - City Pair Program airfare: https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates-etc/airfare-rates-city-pair-program
 ## 📕 Language
 - Python 
-- HTML
  
 ## 📄 List of game features
 
@@ -55,7 +54,7 @@ Travel-cost/
 
 ## 🕹️ Instructions
 - Select **State** and **City** for per diem rates.
-- Choose **Travel start** and **end dates**.
+- Choose **Travel start dates** and **Travel end dates**.
 - Look up **airfare** between origin and destination.
 - Use **Search** to calculate, and **Reset** to clear all inputs.
 
@@ -117,9 +116,11 @@ cd ~\Travel-cost\src
 ```
 python -m streamlit run main.py
 ```
-
+This will launch the Streamlit server, and you can access the application through your web browser at Local `http://localhost:8501` or Network `http://192.168.1.8:8501`.
+## ⛑️Contribute
+- If you discover solutions or improvements to this project, contribute and build a better application. You are welcome. Thank you!
 ## 📚 Appendix 
-### Modules
+### Dependencies
 - `pandas` is used to efficiently load, filter, and manipulate travel and airfare datasets (CSV files) for accurate rate lookups and expense calculations.
 - `os` accesses operating system functions like file paths.
 - `datetime` manages date and time information when recording game time or move timestamps

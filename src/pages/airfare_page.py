@@ -19,8 +19,8 @@ def airfare_page():
         st.error(str(e))
         return
 
-    col_a, col_b = st.columns(2)
-    with col_a:
+    left_col, right_col = st.columns(2)
+    with left_col:
         origin_value = st.session_state.get("af_origin", SELECT)
         if origin_value not in origin_options:
             origin_value = SELECT
@@ -32,21 +32,21 @@ def airfare_page():
         selected_origin = st.selectbox(
             "Origin city or airport",
             origin_options,
-            index=origin_index,
-            key="af_origin"
+            index = origin_index,
+            key = "af_origin"
         )
 
-    with col_b:
+    with right_col:
         if selected_origin == SELECT:
             st.selectbox(
                 "Destination city or airport",
                 [SELECT],
-                index=0,
-                key="af_destination",
-                disabled=True
+                index = 0,
+                key = "af_destination",
+                disabled = True
             )
         else:
-            dest_options = [SELECT] + get_airfare_destinations(airfare_df, selected_origin)
+            dest_options = get_airfare_destinations(airfare_df, selected_origin)
             dest_value = st.session_state.get("af_destination", SELECT)
             if dest_value not in dest_options:
                 dest_value = SELECT
@@ -58,16 +58,15 @@ def airfare_page():
             st.selectbox(
                 "Destination city or airport",
                 dest_options,
-                index=dest_index,
-                key="af_destination"
+                index = dest_index,
+                key = "af_destination"
             )
-    st.info(
-        "All fares are listed one-way and are valid in either direction. "
-    )
+    
+    st.info("All fares are listed one-way and are valid in either direction.")
 
-    with st.expander("**More details about airfares**", expanded=False):
+    with st.expander("**More details about airfares**", expanded = False):
         st.markdown("""
-            **Taxes and fees may apply to the final price.**  
+            **Taxes and fees may apply to the final price**  
             The final ticket price, excluding baggage fees, will be displayed in your agency’s approved travel 
             management system. Information on commercial baggage fees is available on the
             [Airline Information](https://www.gsa.gov/node/82478) page.  
@@ -81,11 +80,11 @@ def airfare_page():
             International fares exclude taxes and other fees but include fuel surcharges.
             """)
 
-    c1, c2, _, _ = st.columns([1, 1, 1, 1])
-    with c1:
-        search_clicked = st.button("Search", use_container_width=True, key="af_search_btn")
-    with c2:
-        reset_clicked = st.button("Reset", use_container_width=True, key="af_reset_btn")
+    col_1, col_2, _, _ = st.columns([1, 1, 1, 1])
+    with col_1:
+        search_clicked = st.button("Search", use_container_width = True, key = "af_search_btn")
+    with col_2:
+        reset_clicked = st.button("Reset", use_container_width = True, key = "af_reset_btn")
 
     if reset_clicked:
         st.session_state["_reset_airfare"] = True

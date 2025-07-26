@@ -29,19 +29,19 @@ def per_diem_page():
     left_section, right_section = st.columns(2)
     with left_section:
         st.write("**Choose a location**")
-        state_value = st.session_state.get("pd_state", "-Select-")
+        state_value = st.session_state.get("pd_state", SELECT)
         if state_value not in state_options:
-            state_value = "-Select-"
+            state_value = SELECT
         selected_state = st.selectbox("State", state_options, index=state_options.index(state_value), key="pd_state")
 
         city_list = fetch_state_cities(travel_df, selected_state)
         selected_city = st.selectbox("City", city_list, key="pd_city")
-        if selected_state == "-Select-":
+        if selected_state == SELECT:
             st.warning("Please select a state and city.")
 
     with right_section:
         st.write("**Choose a date**")
-        if selected_state == "-Select-":
+        if selected_state == SELECT:
             st.date_input("Travel start date (mm/dd/yyyy)", value=None, disabled=True)
             st.date_input("Travel end date (mm/dd/yyyy)", value=None, disabled=True)
             st.warning("Please select a state first to choose dates.")
@@ -49,10 +49,10 @@ def per_diem_page():
             travel_start = st.date_input("Travel start date (mm/dd/yyyy)")
             travel_end = st.date_input("Travel end date (mm/dd/yyyy)")
 
-    col1, col2, _, _ = st.columns([1, 1, 1, 1])
-    with col1:
+    col_1, col_2, _, _ = st.columns([1, 1, 1, 1])
+    with col_1:
         search_clicked = st.button("Search", use_container_width=True, key="pd_search_btn")
-    with col2:
+    with col_2:
         reset_clicked = st.button("Reset", use_container_width=True, key="pd_reset_btn")
 
     if reset_clicked:

@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from datetime import datetime
+from CONSTANTS import *
 
 def load_travel_data():
     """Load per diem data from the updated FY2025 CSV file."""
@@ -35,23 +36,10 @@ def fetch_state_cities(df, state):
 
 def get_states_list(df):
     states = df['STATE'].fillna('Unknown').astype(str).unique()
-    return ['-Select-'] + sorted(states)
+    return [SELECT] + sorted(states)
 
 def convert_state_abbr_to_full(abbr):
-    state_map = {
-        "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California",
-        "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "DC": "District of Columbia",
-        "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois",
-        "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana",
-        "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota",
-        "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada",
-        "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
-        "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon",
-        "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota",
-        "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia",
-        "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"
-    }
-    return state_map.get(abbr.upper(), abbr)
+    return STATE_MAP.get(abbr.upper(), abbr)
 
 def get_travel_rates(city, state, start_date, end_date, df):
     start_dt = pd.to_datetime(start_date)

@@ -53,9 +53,8 @@ def home_page():
                 
         ### **Privately owned vehicle (POV) mileage reimbursement rates**
                 
-                Privately Owned Vehicle (POV) mileage reimbursement rates are payments per mile to cover costs like fuel, maintenance, 
-                insurance, and depreciation for using personal vehicles for official business travel, typically for federal employees or
-                 contractors. The U.S. General Services Administration (GSA) establishes these rates, often aligning with the IRS business
-                 mileage rates, with separate calculations for airplanes and motorcycles.
-                
+        Privately Owned Vehicle (POV) mileage reimbursement rates are payments per mile to cover costs like fuel, maintenance, 
+        insurance, and depreciation for using personal vehicles for official business travel, typically for federal employees or
+        contractors. The U.S. General Services Administration (GSA) establishes these rates, often aligning with the IRS business
+        mileage rates, with separate calculations for airplanes and motorcycles.     
     """)

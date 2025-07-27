@@ -12,13 +12,16 @@ Travel-cost/
 ├── data/
 │   ├── airfare_2025.csv         # Database of airfares
 │   └── FY2025_PerDiemRates.csv  # Database of per diem rate
+├── .streamlit/
+│   └── config.toml              # Program configaration
 ├── src/
-│   ├── main.py                  # Main programme
+│   ├── files.py                 # Source code of project
 │   └── pages/
-│        ├── home_page.py        # Home interface
-│        ├── airfare_page.py     # Airfare interface
-│        └── perdiem_page.py     # Perdiem interface
-├──README.md                     # Project overview and metadata
+│        ├── home.py             # Home interface
+│        ├── airfare.py          # Airfare interface
+│        ├── POV.py              # POV mileage interface
+│        └── perdiem.py          # Perdiem interface
+├── README.md                     # Project overview and metadata
 ├──.gitignore                    # Files ignored by Git
 └── requirements.txt             # External Python packages your project needs to run
 ```
